@@ -1,11 +1,17 @@
+import base64
+import csv
+import os
+from io import StringIO
+
 from fastapi import APIRouter, Depends
 
 from common.schemas.models.message import SuccessMessage
 from points.database.database import get_db, PointsDatabase
 from points.schemas.crud.csv_document import CSVDocumentCreate
-from points.schemas.models import CSVDocument
+from points.schemas.models import CSVDocument, Skeleton
 
 from points.routers.document._point import router as points_router
+from points.settings import DOCUMENTS_FOLDER
 
 router = APIRouter(
     prefix="/documents",
@@ -16,7 +22,27 @@ router = APIRouter(
 @router.post("", response_model=CSVDocument, status_code=201, summary="Create a new document",
              description="Create a new document", response_description="The created document")
 async def create_document(new_document: CSVDocumentCreate, db: PointsDatabase = Depends(get_db)):
-    document = CSVDocument(**new_document.model_dump())
+
+    base64_decoded_file = StringIO(new_document.csv_file)
+    contents = base64_decoded_file.read()
+
+    # decode file_content_base64
+    decoded_file_content = base64.b64decode(contents).decode('utf-8')
+
+    # Specify the folder to save the file
+    upload_folder = DOCUMENTS_FOLDER
+    os.makedirs(upload_folder, exist_ok=True)
+
+    # Construct the file path
+    file_name = new_document.name + ".csv"
+    file_path = os.path.join(upload_folder, file_name)
+
+    # Write the file contents to the specified path
+    with open(file_path, "wb") as f:
+        print("saving document " + file_name)
+        f.write(decoded_file_content.encode('utf-8'))
+
+    document = CSVDocument(name=new_document.name, file_name=file_name)
     result = await db.document.create(document)
     return result
 
@@ -42,4 +68,4 @@ async def delete_document(document_id: int, db: PointsDatabase = Depends(get_db)
     return SuccessMessage(success=result, message="CSVDocument deleted", data={"document_id": document_id})
 
 
-router.include_router(points_router, tags=["points"], prefix="/{document_id}/points")
+router.include_router(points_router, tags=["points"], prefix="/{document_id}")
