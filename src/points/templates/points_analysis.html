@@ -29,6 +29,21 @@
 
     <h1>Analysis {{ document.name }}</h1>
 
+    <h3>Select other document:</h3>
+    <label for="document">Document:</label>
+    <select id="document"
+            name="document"
+            hx-get="/points/documents/html"
+            hx-trigger="load"
+            hx-target="#document">
+    </select>
+    <script>
+        document.getElementById('document').addEventListener('change', function (event) {
+            let documentId = event.target.value;
+            window.location.href = '/points/documents/' + documentId + '/points/analysis';
+        });
+    </script>
+
     <div id="common-chart-form">
         <h3>Part type:</h3>
         <input type="checkbox" name="part_types" value="head" id="head_part" checked> <label for="head_part">Head</label><br>

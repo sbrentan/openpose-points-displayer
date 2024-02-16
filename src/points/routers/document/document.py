@@ -3,6 +3,7 @@ import os
 from io import StringIO
 
 from fastapi import APIRouter, Depends
+from starlette.responses import HTMLResponse
 
 from common.schemas.models.message import SuccessMessage
 from points.database.database import get_db, PointsDatabase
@@ -51,6 +52,16 @@ async def create_document(new_document: CSVDocumentCreate, db: PointsDatabase = 
 async def read_documents(db: PointsDatabase = Depends(get_db)):
     result = await db.document.filter()
     return result
+
+
+@router.get("/html", response_class=HTMLResponse, summary="Read all documents html",
+            description="Read all documents html", response_description="List of all documents html")
+async def get_documents_html(db: PointsDatabase = Depends(get_db)):
+    result = await db.document.filter()
+    options_documents = ""
+    for document in result:
+        options_documents += f"<option value='{document.id}'>{document.name}</option>"
+    return HTMLResponse(content=options_documents, status_code=200)
 
 
 @router.get("/{document_id}", response_model=CSVDocument, summary="Read a document",
