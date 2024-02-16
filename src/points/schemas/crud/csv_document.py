@@ -15,9 +15,3 @@ class GraphType(Enum):
     Y_X: str = "y_x"
     X_TIME: str = "x_time"
     Y_TIME: str = "y_time"
-
-
-class SkeletonGraphGet(BaseModel):
-
-    part_type: PartType = Field(alias="partType")
-    graph_type: GraphType = Field(alias="graphType")

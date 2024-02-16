@@ -29,23 +29,36 @@
 
     <h1>Analysis {{ document.name }}</h1>
 
+    <div id="common-chart-form">
+        <h3>Part type:</h3>
+        <input type="checkbox" name="part_types" value="head" id="head_part" checked> <label for="head_part">Head</label><br>
+        <input type="checkbox" name="part_types" value="trunk" id="trunk_part" checked> <label for="trunk_part">Trunk</label><br>
+        <input type="checkbox" name="part_types" value="right_hand" id="right_hand_part" checked> <label for="right_hand_part">Right Hand</label><br>
+        <input type="checkbox" name="part_types" value="left_hand" id="left_hand_part" checked> <label for="left_hand_part">Left Hand</label><br>
+        <input type="checkbox" name="part_types" value="right_foot" id="right_foot_part" checked> <label for="right_foot_part">Right Foot</label><br>
+        <input type="checkbox" name="part_types" value="left_foot" id="left_foot_part" checked> <label for="left_foot_part">Left Foot</label><br>
+        <br>
+    </div>
+
     <div class="chart">
+        <input type="hidden" id="x-y-graph-type" name="graph_type" value="x_y">
         <div id="x-y-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
         <div id="x-y-chart"
              hx-get="/points/documents/{{ document.id }}/points/graph"
-             hx-vars='{"part_type": "head", "graph_type": "x_y"}'
-             hx-trigger="load"
+             hx-include="#x-y-graph-type, #common-chart-form"
+             hx-trigger="load, change from:#common-chart-form"
              hx-indicator="#x-y-spinner"
              hx-target="#x-y-chart">
         </div>
     </div>
 
     <div class="chart">
+        <input type="hidden" id="y-x-graph-type" name="graph_type" value="y_x">
         <div id="y-x-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
         <div id="y-x-chart"
              hx-get="/points/documents/{{ document.id }}/points/graph"
-             hx-vars='{"part_type": "head", "graph_type": "y_x"}'
-             hx-trigger="load"
+             hx-include="#y-x-graph-type, #common-chart-form"
+             hx-trigger="load, change from:#common-chart-form"
              hx-indicator="#y-x-spinner"
              hx-target="#y-x-chart">
         </div>
@@ -54,22 +67,24 @@
     <br><br><br><br><br><br><br><br>
 
     <div class="chart">
+        <input type="hidden" id="x-time-graph-type" name="graph_type" value="x_time">
         <div id="x-time-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
         <div id="x-time-chart"
              hx-get="/points/documents/{{ document.id }}/points/graph"
-             hx-vars='{"part_type": "head", "graph_type": "x_time"}'
-             hx-trigger="load"
+             hx-include="#x-time-graph-type, #common-chart-form"
+             hx-trigger="load, change from:#common-chart-form"
              hx-indicator="#x-time-spinner"
              hx-target="#x-time-chart">
         </div>
     </div>
 
     <div class="chart">
+        <input type="hidden" id="y-time-graph-type" name="graph_type" value="y_time">
         <div id="y-time-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
         <div id="y-time-chart"
              hx-get="/points/documents/{{ document.id }}/points/graph"
-             hx-vars='{"part_type": "head", "graph_type": "y_time"}'
-             hx-trigger="load"
+             hx-include="#y-time-graph-type, #common-chart-form"
+             hx-trigger="load, change from:#common-chart-form"
              hx-indicator="#y-time-spinner"
              hx-target="#y-time-chart">
         </div>
