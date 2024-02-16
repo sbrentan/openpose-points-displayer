@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analysis {{ document.name }}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .chart{
+            position: relative;
+            width: 600px;
+            height: 300px;
+            margin: 0 auto;
+            display: inline-block;
+        }
+        .htmx-indicator{
+            position: relative;
+            transition: opacity 0.5s;
+            left: 300px;
+            top: 230px;
+            width: 50px;
+            height: 50px;
+            margin-bottom: -25px;
+            margin-left: -25px;
+        }
+    </style>
+</head>
+<body style="text-align: center">
+
+    <h1>Analysis {{ document.name }}</h1>
+
+    <div class="chart">
+        <div id="x-y-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
+        <div id="x-y-chart"
+             hx-get="/points/documents/{{ document.id }}/points/graph"
+             hx-vars='{"part_type": "head", "graph_type": "x_y"}'
+             hx-trigger="load"
+             hx-indicator="#x-y-spinner"
+             hx-target="#x-y-chart">
+        </div>
+    </div>
+
+    <div class="chart">
+        <div id="y-x-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
+        <div id="y-x-chart"
+             hx-get="/points/documents/{{ document.id }}/points/graph"
+             hx-vars='{"part_type": "head", "graph_type": "y_x"}'
+             hx-trigger="load"
+             hx-indicator="#y-x-spinner"
+             hx-target="#y-x-chart">
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br>
+
+    <div class="chart">
+        <div id="x-time-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
+        <div id="x-time-chart"
+             hx-get="/points/documents/{{ document.id }}/points/graph"
+             hx-vars='{"part_type": "head", "graph_type": "x_time"}'
+             hx-trigger="load"
+             hx-indicator="#x-time-spinner"
+             hx-target="#x-time-chart">
+        </div>
+    </div>
+
+    <div class="chart">
+        <div id="y-time-spinner" class="htmx-indicator"><i class="fa fa-refresh fa-spin fa-3x fa-fw" aria-hidden="true"></i></div>
+        <div id="y-time-chart"
+             hx-get="/points/documents/{{ document.id }}/points/graph"
+             hx-vars='{"part_type": "head", "graph_type": "y_time"}'
+             hx-trigger="load"
+             hx-indicator="#y-time-spinner"
+             hx-target="#y-time-chart">
+        </div>
+    </div>
+</body>
+</html>

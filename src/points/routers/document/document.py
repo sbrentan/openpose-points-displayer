@@ -1,5 +1,4 @@
 import base64
-import csv
 import os
 from io import StringIO
 
@@ -8,7 +7,7 @@ from fastapi import APIRouter, Depends
 from common.schemas.models.message import SuccessMessage
 from points.database.database import get_db, PointsDatabase
 from points.schemas.crud.csv_document import CSVDocumentCreate
-from points.schemas.models import CSVDocument, Skeleton
+from points.schemas.models import CSVDocument
 
 from points.routers.document._point import router as points_router
 from points.settings import DOCUMENTS_FOLDER

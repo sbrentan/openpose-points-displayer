@@ -10,12 +10,14 @@ class CSVDocumentCreate(BaseModel):
     csv_file: str = Field(alias="csvFile")
 
 
-class GraphVariable(Enum):
-    variable_x: str = "x"
-    variable_y: str = "y"
+class GraphType(Enum):
+    X_Y: str = "x_y"
+    Y_X: str = "y_x"
+    X_TIME: str = "x_time"
+    Y_TIME: str = "y_time"
 
 
 class SkeletonGraphGet(BaseModel):
 
-    part_type: PartType
-    graph_variable: GraphVariable
+    part_type: PartType = Field(alias="partType")
+    graph_type: GraphType = Field(alias="graphType")
